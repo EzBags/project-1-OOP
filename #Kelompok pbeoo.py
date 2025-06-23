@@ -49,7 +49,7 @@ class Muffin(KueKering):
     def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
         super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
         
-from produk import *
+ 
 
 class ProsesProduksi:
     @staticmethod
@@ -81,8 +81,6 @@ class ProsesProduksi:
         print(ProsesProduksi.topping(produk))
         print("=== Produksi Selesai ===\n")
         
-from produk import *
-from produksi import ProsesProduksi
 
 class MenuHanariBakery:
     def _init_(self):
@@ -156,3 +154,12 @@ class MenuHanariBakery:
                 break
             else:
                 print("Pilihan tidak valid!")
+
+
+
+if __name__ == "__main__":
+    # Contoh data produk untuk testing
+    bakery = MenuHanariBakery()
+    
+    # Jalankan menu utama
+    bakery.jalankan_menu()
