@@ -1,11 +1,11 @@
-#Kelompok 1 PBO PROJEK UAS
-#Yardan Raditya laksana_K3524017
-#Muhammad Irfan Maulana_K3524059
-#Muhammad Ridwan Auliansyach_K3524061
-#Khoirul Bagus Wicaksono_K3524077
+# Kelompok 1 PBO PROJEK UAS
+# Yardan Raditya laksana_K3524017
+# Muhammad Irfan Maulana_K3524059
+# Muhammad Ridwan Auliansyach_K3524061
+# Khoirul Bagus Wicaksono_K3524077
 
 class ProdukRoti:
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
         self.nama_produk = nama_produk
         self.kode_produk = kode_produk
         self.bahan_baku = bahan_baku
@@ -26,30 +26,29 @@ class ProdukRoti:
 
 
 class RotiManis(ProdukRoti):
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
-        super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+        super().__init__(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
 
 
 class Croissant(ProdukRoti):
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
-        super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+        super().__init__(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
 
 
 class KueKering(ProdukRoti):
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
-        super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+        super().__init__(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
 
 
 class ButterCookies(KueKering):
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
-        super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+        super().__init__(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
 
 
 class Muffin(KueKering):
-    def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
-        super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+    def __init__(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
+        super().__init__(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
         
- 
 
 class ProsesProduksi:
     @staticmethod
@@ -83,7 +82,7 @@ class ProsesProduksi:
         
 
 class MenuHanariBakery:
-    def _init_(self):
+    def __init__(self):
         self.produk_list = []
 
     def tambah_produk(self):
@@ -91,8 +90,13 @@ class MenuHanariBakery:
         jenis = input("Jenis produk (roti/croissant/cookies/muffin): ").lower()
         nama = input("Nama produk: ")
         kode = input("Kode produk: ")
-        biaya = float(input("Biaya produksi per pcs: "))
-        harga = float(input("Harga jual per pcs: "))
+        
+        try:
+            biaya = float(input("Biaya produksi per pcs: "))
+            harga = float(input("Harga jual per pcs: "))
+        except ValueError:
+            print("Input harus berupa angka!")
+            return
         
         # Contoh bahan baku
         bahan = {
@@ -117,17 +121,52 @@ class MenuHanariBakery:
         print(f"Produk {nama} berhasil ditambahkan!\n")
 
     def tampilkan_produk(self):
+        if not self.produk_list:
+            print("\nBelum ada produk yang terdaftar.")
+            return
+            
         print("\nDaftar Produk Hanari Bakery")
         for idx, produk in enumerate(self.produk_list, 1):
             print(f"{idx}. {produk.nama_produk} ({produk.kode_produk})")
 
     def hitung_profit(self):
+        if not self.produk_list:
+            print("\nBelum ada produk yang terdaftar. Tambah produk terlebih dahulu.")
+            return
+            
         self.tampilkan_produk()
-        pilihan = int(input("Pilih produk: ")) - 1
-        jumlah = int(input("Jumlah yang akan diproduksi: "))
-        produk = self.produk_list[pilihan]
-        profit = produk.hitung_profit(jumlah)
-        print(f"\nEstimasi profit untuk {produk.nama_produk}: Rp{profit:,.2f}\n")
+        try:
+            pilihan = int(input("Pilih produk: ")) - 1
+            if pilihan < 0 or pilihan >= len(self.produk_list):
+                print("Pilihan tidak valid!")
+                return
+                
+            jumlah = int(input("Jumlah yang akan diproduksi: "))
+            if jumlah <= 0:
+                print("Jumlah harus lebih dari 0!")
+                return
+                
+            produk = self.produk_list[pilihan]
+            profit = produk.hitung_profit(jumlah)
+            print(f"\nEstimasi profit untuk {produk.nama_produk}: Rp{profit:,.2f}\n")
+        except (ValueError, IndexError):
+            print("Input tidak valid!")
+
+    def simulasi_produksi_menu(self):
+        if not self.produk_list:
+            print("\nBelum ada produk yang terdaftar. Tambah produk terlebih dahulu.")
+            return
+            
+        self.tampilkan_produk()
+        try:
+            pilihan = int(input("Pilih produk untuk simulasi: ")) - 1
+            if pilihan < 0 or pilihan >= len(self.produk_list):
+                print("Pilihan tidak valid!")
+                return
+                
+            ProsesProduksi.simulasi_produksi(self.produk_list[pilihan])
+        except (ValueError, IndexError):
+            print("Input tidak valid!")
 
     def jalankan_menu(self):
         while True:
@@ -146,15 +185,12 @@ class MenuHanariBakery:
             elif pilihan == '3':
                 self.hitung_profit()
             elif pilihan == '4':
-                self.tampilkan_produk()
-                pilihan = int(input("Pilih produk untuk simulasi: ")) - 1
-                ProsesProduksi.simulasi_produksi(self.produk_list[pilihan])
+                self.simulasi_produksi_menu()
             elif pilihan == '5':
                 print("Terima kasih telah menggunakan sistem Hanari Bakery!")
                 break
             else:
                 print("Pilihan tidak valid!")
-
 
 
 if __name__ == "__main__":
