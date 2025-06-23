@@ -1,10 +1,3 @@
-#Kelompok
-#kkkk
-#hhhh
-#balapppp
-#atosperson
-#pankness ndlogok
-#ariancok
 #Kelompok 1 PBO PROJEK UAS
 #Yardan Raditya laksana_K3524017
 #Muhammad Irfan Maulana_K3524059
@@ -55,3 +48,35 @@ class ButterCookies(KueKering):
 class Muffin(KueKering):
     def _init_(self, nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual):
         super()._init_(nama_produk, kode_produk, bahan_baku, biaya_produksi, harga_jual)
+        
+from produk import *
+
+class ProsesProduksi:
+    @staticmethod
+    def pengadonan(produk):
+        return f"Proses pengadonan untuk {produk.nama_produk} selesai."
+
+    @staticmethod
+    def pengembangan(produk):
+        if isinstance(produk, (RotiManis, Croissant, Muffin)):
+            return f"Proses pengembangan untuk {produk.nama_produk} selesai."
+        return f"{produk.nama_produk} tidak memerlukan proses pengembangan."
+
+    @staticmethod
+    def pemanggangan(produk):
+        return f"Proses pemanggangan untuk {produk.nama_produk} selesai."
+
+    @staticmethod
+    def topping(produk):
+        if isinstance(produk, KueKering):
+            return f"Proses topping untuk {produk.nama_produk} selesai."
+        return f"{produk.nama_produk} tidak memerlukan proses topping."
+
+    @staticmethod
+    def simulasi_produksi(produk):
+        print("\n=== Simulasi Produksi ===")
+        print(ProsesProduksi.pengadonan(produk))
+        print(ProsesProduksi.pengembangan(produk))
+        print(ProsesProduksi.pemanggangan(produk))
+        print(ProsesProduksi.topping(produk))
+        print("=== Produksi Selesai ===\n")
